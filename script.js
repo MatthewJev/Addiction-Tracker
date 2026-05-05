@@ -1,6 +1,7 @@
 const addictionInput = document.getElementById("addictionInput")
 const addAddictionBtn= document.getElementById("addAddictionBtn")
 const addictionsContainer = document.getElementById("addictionsContainer")
+const selectedAddictionContainer = document.getElementById("selectedAddictionContainer")
 
 
 let addictions = []
@@ -49,7 +50,20 @@ function handleSelectAddiction(id){
 
     let selectedAddiction = addictions.find(addiction => addiction.id === selectedAddictionId)
 
-    console.log(selectedAddiction.name)
+    renderSelectedAddiction()
+}
+
+function renderSelectedAddiction(){
+    selectedAddictionContainer.innerHTML = ""
+   let selectedAddiction = addictions.find(addiction => addiction.id === selectedAddictionId) 
+
+   if(!selectedAddiction)return
+
+   let addictionName = document.createElement("p")
+   addictionName.textContent = selectedAddiction.name
+
+   selectedAddictionContainer.append(addictionName)
+
 }
 
 
