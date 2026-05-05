@@ -22,8 +22,22 @@ function handleAddAddiction(){
 
     addictions.push(newAddiction)
 
+    renderAddictions()
+
     addictionInput.value = ""
 
     console.log(addictions)
 
-}   
+}  
+
+function renderAddictions(){
+    addictionsContainer.innerHTML = ""
+
+    addictions.forEach((addiction) =>{
+        let button = document.createElement("button")
+        button.textContent = addiction.name
+        addictionsContainer.append(button)
+    })
+}
+
+
