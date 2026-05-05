@@ -5,6 +5,8 @@ const addictionsContainer = document.getElementById("addictionsContainer")
 
 let addictions = []
 
+let selectedAddictionId = null 
+
 addAddictionBtn.addEventListener("click", handleAddAddiction)
 
 function handleAddAddiction(){
@@ -36,8 +38,18 @@ function renderAddictions(){
     addictions.forEach((addiction) =>{
         let button = document.createElement("button")
         button.textContent = addiction.name
+
+        button.addEventListener("click", ()=>handleSelectAddiction(addiction.id))
         addictionsContainer.append(button)
     })
+}
+
+function handleSelectAddiction(id){
+    selectedAddictionId = id 
+
+    let selectedAddiction = addictions.find(addiction => addiction.id === selectedAddictionId)
+
+    console.log(selectedAddiction.name)
 }
 
 
