@@ -57,48 +57,53 @@ function handleSelectAddiction(id){
     renderSelectedAddiction()
 }
 
+
+
 // render the contents of the selected addiciton to the page 
 function renderSelectedAddiction(){
-    selectedAddictionContainer.innerHTML = ""
-   let selectedAddiction = addictions.find(addiction => addiction.id === selectedAddictionId) 
 
-   if(!selectedAddiction)return
+   let selectedAddiction = addictions.find(addiction => addiction.id === selectedAddictionId) 
+    if(!selectedAddiction)return
+   let currentDate = new Date().toISOString().split("T")[0]
+
+   let todaysEntry = selectedAddiction.entries.find(entry=> entry.date === currentDate)
+
+   selectedAddictionContainer.innerHTML = "" 
+
+   let ui = buildSelectedAddicitonUI(selectedAddiction, todaysEntry)
+
+   selectedAddictionContainer.append(...ui)
+
+}
+
+function buildSelectedAddicitonUI(selectedAddiction, todaysEntry){
+   let elements = []
 
    let addictionName = document.createElement("p")
    addictionName.textContent = selectedAddiction.name
-
    
    let question = document.createElement("p")
    let yesBtn = document.createElement("button")
    let noBtn = document.createElement("button")
-
-  
-
+   let journalInput = document.createElement("input")
 
    question.textContent = "did you relapse today"
    yesBtn.textContent = "yes"
-   noBtn.textContent = "no" 
+   noBtn.textContent = "no"  
+   journalInput.placeholder = "journal"
    
-   let entries = selectedAddiction.entries 
-   let currentDate = new Date().toISOString().split("T")[0]
-
-  let todaysEntry = entries.find(entry=> entry.date === currentDate)
-
-
-
+   
    yesBtn.addEventListener("click", ()=> handleCheckin(true))
    noBtn.addEventListener("click", ()=> handleCheckin(false))  
 
-if (todaysEntry?.relapse !== undefined && todaysEntry !== undefined) {
+ if (todaysEntry?.relapse !== undefined) {
+        yesBtn.classList.add("hidden")
+        noBtn.classList.add("hidden")
+    }
+    
+    elements.push(addictionName, question, yesBtn, noBtn, journalInput)
 
-    yesBtn.classList.add("hidden")
-
-    noBtn.classList.add("hidden")
-
-}
-
-   selectedAddictionContainer.append(addictionName, question, yesBtn, noBtn)
-
+    return elements
 }
 
 // keeps track of whether the user has relapsed for the day 
