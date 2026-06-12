@@ -1,0 +1,53 @@
+STATE
+
+├─ addictions[]
+
+├─ selectedAddictionId
+
+
+HELPERS
+
+├─ getSelectedAddiction()
+
+├─ getTodayEntry()
+
+├─ streakCalculator()
+
+├─ setLocatStorage()
+
+├─ getLocalStorage()
+
+├─ createEntry()
+
+
+
+USER ACTIONS
+
+├─ handleAddAddiction()
+
+├─ handleSelectAddiction()
+
+├─ handleCheckin()
+
+├─ handleJournalSave()
+
+
+
+
+RENDERING
+
+├─ renderAddictions()
+
+├─ renderSelectedAddiction()
+
+
+
+UI BUILDERS
+
+├─ buildSelectedAddictionUI()
+
+├─ buildHistoryUI()
+
+▼
+
+DOM
