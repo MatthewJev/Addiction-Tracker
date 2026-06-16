@@ -179,7 +179,7 @@ function renderSelectedAddiction(){
 
    let currentDate = new Date().toISOString().split("T")[0]
 
-   let todaysEntry = selectedAddiction.entries.find(entry=> entry.date === currentDate)
+   let todaysEntry = getTodayEntry(selectedAddiction)
 
    selectedAddictionContainer.innerHTML = "" 
 
@@ -195,6 +195,10 @@ console.log("entries:", selectedAddiction.entries)
 
 }
 
+function renderSelectedEntry(){
+    
+}
+
 
 
 
@@ -202,7 +206,7 @@ console.log("entries:", selectedAddiction.entries)
 //BUILDER FUNCTIONS 
 
 // builds the ui for the selected addiction 
-function buildSelectedAddicitonUI(selectedAddiction, todaysEntry){
+function buildSelectedAddicitonUI(selectedAddiction, entry){
    let elements = []
 
    let addictionName = document.createElement("p")
@@ -220,10 +224,10 @@ function buildSelectedAddicitonUI(selectedAddiction, todaysEntry){
    yesBtn.textContent = "yes"
    noBtn.textContent = "no"  
    journalInput.placeholder = "journal"
-   journalInput.value = todaysEntry?.journal || ""
+   journalInput.value = entry?.journal || ""
    saveBtn.textContent = "save"
 
-   if (todaysEntry?.relapse !== undefined) {
+   if (entry?.relapse !== undefined) {
         yesBtn.classList.add("hidden")
         noBtn.classList.add("hidden")
         question.classList.add("hidden")
@@ -242,7 +246,7 @@ function buildSelectedAddicitonUI(selectedAddiction, todaysEntry){
 
  
     
-    elements.push(streak, addictionName, question, yesBtn, noBtn, journalInput, saveBtn, ...historyUi)
+    elements.push(streak, addictionName, question, yesBtn, noBtn, journalInput, saveBtn, historyUi)
 
 
     return elements
@@ -253,15 +257,25 @@ function buildSelectedAddicitonUI(selectedAddiction, todaysEntry){
 function buildHistoryUI(selectedAddiction){
     let element =[]
 
+    let historyContainer = document.createElement("div")
+    let title = document.createElement("p")
+    title.textContent = "History"
+
+    historyContainer.append(title)
+
    selectedAddiction.entries.forEach(entry =>{
 
     let button = document.createElement("button")
     button.textContent = entry.date
-    element.push(button)
+
+    button.addEventListener("click", ()=>{
+        buildSelectedAddicitonUI(selectedAddiction, entry)
+    })
+    historyContainer.append(button)
 
    })
 
-   return element
+   return historyContainer
 }
 
 getLocalStorage()

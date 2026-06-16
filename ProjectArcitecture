@@ -40,6 +40,10 @@ RENDERING
 
 ├─ renderSelectedAddiction()
 
+├─ renderSelectedEntry()
+
+
+
 
 
 UI BUILDERS
