@@ -2,6 +2,7 @@ const addictionInput = document.getElementById("addictionInput")
 const addAddictionBtn= document.getElementById("addAddictionBtn")
 const addictionsContainer = document.getElementById("addictionsContainer")
 const selectedAddictionContainer = document.getElementById("selectedAddictionContainer")
+const historyViewContainer = document.getElementById("historyViewContainer")
 const addictionsKey = "addictions"
 
 //STATE
@@ -195,8 +196,13 @@ console.log("entries:", selectedAddiction.entries)
 
 }
 
-function renderSelectedEntry(){
-    
+function renderHistoryView(entry){
+let ui = buildHistoryViewUI(entry)
+
+selectedAddictionContainer.innerHTML = ""
+
+historyViewContainer.append(...ui)
+
 }
 
 
@@ -242,7 +248,7 @@ function buildSelectedAddicitonUI(selectedAddiction, entry){
    noBtn.addEventListener("click", ()=> handleCheckin(false))  
    saveBtn.addEventListener("click", ()=>handleJournalSave(journalInput))
 
-   let historyUi = buildHistoryUI(selectedAddiction)
+   let historyUi = buildHistoryListUI(selectedAddiction)
 
  
     
@@ -254,7 +260,7 @@ function buildSelectedAddicitonUI(selectedAddiction, entry){
 
 
 
-function buildHistoryUI(selectedAddiction){
+function buildHistoryListUI(selectedAddiction){
     let element =[]
 
     let historyContainer = document.createElement("div")
@@ -269,7 +275,7 @@ function buildHistoryUI(selectedAddiction){
     button.textContent = entry.date
 
     button.addEventListener("click", ()=>{
-        buildSelectedAddicitonUI(selectedAddiction, entry)
+        renderHistoryView(entry)
     })
     historyContainer.append(button)
 
@@ -278,5 +284,34 @@ function buildHistoryUI(selectedAddiction){
    return historyContainer
 }
 
+function buildHistoryViewUI(entry){
+
+let elements = []
+let title = document.createElement("p")
+let subtitle = document.createElement("p")
+let relapse = document.createElement("P")
+let journal = document.createElement("p")
+
+title.textContent = `${entry.date}`
+
+if (entry.relapse === null) {
+    relapse.textContent = "Relapse: No entry"
+} else {
+    relapse.textContent = `Relapse: ${entry.relapse}`
+}
+
+if (!entry.journal) {
+    journal.textContent = "Journal: No entries"
+} else {
+    journal.textContent = `Journal: ${entry.journal}`
+}
+
+elements.push(title,subtitle,relapse,journal)
+
+
+return elements
+
+
+}
 getLocalStorage()
 renderAddictions()

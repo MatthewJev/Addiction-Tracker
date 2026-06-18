@@ -40,7 +40,9 @@ RENDERING
 
 ├─ renderSelectedAddiction()
 
-├─ renderSelectedEntry()
+├─ renderHisotryList()
+
+├─ renderHistoryView()
 
 
 
@@ -50,7 +52,9 @@ UI BUILDERS
 
 ├─ buildSelectedAddictionUI()
 
-├─ buildHistoryUI()
+├─ buildHistoryListUI()
+
+├─ buildHistoryViewUI()
 
 ▼
 
