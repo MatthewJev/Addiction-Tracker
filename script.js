@@ -147,6 +147,16 @@ function handleJournalSave(journalInput){
 
 }
 
+function handleRemoveAddiction(addiction){
+    let rmvAddiciton = addictions.find(a => a.name === addiction.name)
+    let rmvIndex = addictions.findIndex(item=> item.name === rmvAddiciton.name)
+
+    addictions.splice(rmvIndex,1)
+
+    setLocalStorage()
+    renderAddictions()
+}
+
 
 
 
@@ -160,10 +170,16 @@ function renderAddictions(){
 
     addictions.forEach((addiction) =>{
         let button = document.createElement("button")
+        let deleteBtn = document.createElement("button")
         button.textContent = addiction.name
+        deleteBtn.textContent = "delete" 
 
         button.addEventListener("click", ()=>handleSelectAddiction(addiction.id))
-        addictionsContainer.append(button)
+        
+
+        deleteBtn.addEventListener("click", ()=> handleRemoveAddiction(addiction))
+        
+        addictionsContainer.append(button, deleteBtn)
     })
 
     
@@ -172,6 +188,7 @@ function renderAddictions(){
 
 // render the contents of the selected addiciton to the page 
 function renderSelectedAddiction(){
+
 
 
    let selectedAddiction = getSelectedAddiction()
@@ -183,6 +200,8 @@ function renderSelectedAddiction(){
    let todaysEntry = getTodayEntry(selectedAddiction)
 
    selectedAddictionContainer.innerHTML = "" 
+
+   historyViewContainer.innerHTML = ""
 
    let ui = buildSelectedAddicitonUI(selectedAddiction, todaysEntry)
 
@@ -233,7 +252,7 @@ function buildSelectedAddicitonUI(selectedAddiction, entry){
    journalInput.value = entry?.journal || ""
    saveBtn.textContent = "save"
 
-   if (entry?.relapse !== undefined) {
+   if (entry?.relapse !== null) {
         yesBtn.classList.add("hidden")
         noBtn.classList.add("hidden")
         question.classList.add("hidden")
@@ -274,6 +293,12 @@ function buildHistoryListUI(selectedAddiction){
     let button = document.createElement("button")
     button.textContent = entry.date
 
+    if(entry.relapse === false){
+        button.classList.add("greenButton")
+    } else {
+        button.classList.add("redButton")
+    }
+
     button.addEventListener("click", ()=>{
         renderHistoryView(entry)
     })
@@ -291,7 +316,7 @@ let title = document.createElement("p")
 let subtitle = document.createElement("p")
 let relapse = document.createElement("P")
 let journal = document.createElement("p")
-
+let backBtn = document.createElement("button")
 title.textContent = `${entry.date}`
 
 if (entry.relapse === null) {
@@ -306,7 +331,13 @@ if (!entry.journal) {
     journal.textContent = `Journal: ${entry.journal}`
 }
 
-elements.push(title,subtitle,relapse,journal)
+backBtn.textContent = "back"
+
+backBtn.addEventListener("click", ()=>{
+    renderSelectedAddiction()
+})
+
+elements.push(title,subtitle,relapse,journal,backBtn)
 
 
 return elements

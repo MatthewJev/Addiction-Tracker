@@ -65,3 +65,12 @@ input{
 .hidden{
     display: none;
 }
+
+.greenButton{
+    color: green;
+}
+
+.redButton{
+    color: red;
+}
+
